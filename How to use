@@ -3,4 +3,10 @@ Remember the three-step guide to making model changes:
     Change your models (in models.py).
     Run python manage.py makemigrations to create migrations for those changes
     Run python manage.py migrate to apply those changes to the database.
+Part 4:
+Fix NoReverseMatchError: change in detail.html {% url 'polls:vote' question_id %} to {% url 'polls:vote' question.id %}
+Fix ValueError at /polls/1/vote/
+
+invalid literal for int() with base 10: '{{ choice.id\r\n    }}': make in detail.html value="{{ choice.id
+    }}" in one line such as: value="{{ choice.id }}"
 
