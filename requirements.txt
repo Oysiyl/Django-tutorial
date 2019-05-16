@@ -2,3 +2,4 @@ django
 django-rest-framework
 djangorestframework
 pygments
+python-dotenv
