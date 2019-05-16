@@ -1,5 +1,6 @@
 li a {
     color: green;
-    background-image:url("images/background.gif");
-    background-repeat: no-repeat;
+    /* background-image: url ("images/background.gif"); */
+    /* background-repeat: no-repeat; */
+    background-image: linear-gradient(to bottom right, #FF000050 , #0000FF50)
 }

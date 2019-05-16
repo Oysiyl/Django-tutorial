@@ -6,10 +6,20 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 from .models import Question, Choice
 
 # Add a new views here
+
+
+def listing(request):
+    contact_list = Choice.objects.all()
+    paginator = Paginator(contact_list, 1)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    contacts = paginator.get_page(page)
+    return render(request, 'polls/list.html', {'contacts': contacts})
 
 
 class SignUp(generic.CreateView):
@@ -28,8 +38,12 @@ def index(request):
     return HttpResponse(output)
     '''
     # With templates and render
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    question_list = Question.objects.all()
+    # paginator
+    paginator = Paginator(object_list=question_list, per_page=1)  # Show 25 contacts per page
     # template = loader.get_template('polls/index.html')
+    page = request.GET.get('page')
+    latest_question_list = paginator.get_page(page)
     context = {
         'latest_question_list': latest_question_list,
     }
