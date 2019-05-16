@@ -18,7 +18,7 @@ urlpatterns = [
     # New generic views
     path('', views.IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
-    # path('', TemplateView.as_view(template_name='home.html'), name='home'),  # new
+    path('signup/', views.SignUp.as_view(template_name='signup.html'), name='signup'),  # new
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('<int:question_id>/vote/', views.vote, name='vote'),

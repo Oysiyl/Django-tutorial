@@ -6,3 +6,5 @@ __pycache__/
 # Hide .env
 
 .env
+
+# Hide .log (For example, when reset a password)

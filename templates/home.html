@@ -5,10 +5,18 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
+  Hi {{ user.username }}! Your e-mail is {{ user.email }}, yep? 
+  <p>You are now logged in and can go to polls:</p>
+  <p><a href="{% url 'polls:index' %}">polls</a></p>
+  <p>logout<p>
+  <p><a href="{% url 'polls:logout' %}">logout</a></p>
+  <p>reset password</p>
+  <p><a href="{% url 'password_reset' %}">reset password</a></p>
 {% else %}
   <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
+  <p>Have account?</p>
+  <a href="{% url 'polls:login' %}">login</a>
+  <p>If you for a first time here</p>
+  <a href="{% url 'polls:signup' %}">signup</a>
 {% endif %}
 {% endblock %}
