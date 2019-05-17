@@ -1,5 +1,5 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<!--{% load static %}-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">-->
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
@@ -11,4 +11,32 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
-<p><a href="{% url 'polls:logout' %}">logout</a></p>
+<div class="pagination">
+    <span class="step-links">
+        {% if latest_question_list.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ latest_question_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% if latest_question_list.has_next %}
+            <a href="?page={{ latest_question_list.next_page_number }}">next</a>
+            <a href="?page={{ latest_question_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    <p></p>
+    <span class="current">
+        Page {{ latest_question_list.number }} of {{ latest_question_list.paginator.num_pages }}.
+    </span>
+</div>
+{% if user.is_authenticated %}
+    <p>You can logout here</p>
+    <p><a href="{% url 'polls:logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <p>So you can see question and results, but you can not vote</p>
+  <p>For seeing results, please, select a question above</p>
+  <p>Have account?</p>
+  <a href="{% url 'polls:login' %}">login</a>
+  <p>If you for a first time here</p>
+  <a href="{% url 'polls:signup' %}">signup</a>
+{% endif %}

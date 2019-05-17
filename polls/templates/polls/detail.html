@@ -1,12 +1,28 @@
 <h1>{{ question.question_text }}</h1>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
+{% if user.is_authenticated %}
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+    {% for choice in question.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
 <input type="submit" value="Vote">
 </form>
-<p><a href="{% url 'polls:index' %}">Go back to main</a></p>
+    <p>You can logout here</p>
+    <p><a href="{% url 'polls:logout' %}">logout</a></p>
+{% else %}
+  {% for choice in question.choice_set.all %}
+  <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+  <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+  {% endfor %}
+  <p>You are not logged in</p>
+  <p>So you can see question and results, but you can not vote</p>
+  <p><a href="{% url 'polls:results' question.id %}">View results for this question</a></p>
+  <p>Have account?</p>
+  <a href="{% url 'polls:login' %}">login</a>
+  <p>If you for a first time here</p>
+  <a href="{% url 'polls:signup' %}">signup</a>
+{% endif %}
+
+<p><a href="{% url 'polls:index' %}">Go to polls</a></p>

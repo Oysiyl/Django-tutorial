@@ -14,7 +14,7 @@ from .models import Question, Choice
 
 
 def listing(request):
-    contact_list = Choice.objects.all()
+    contact_list = Question.objects.all()
     paginator = Paginator(contact_list, 1)  # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -38,14 +38,14 @@ def index(request):
     return HttpResponse(output)
     '''
     # With templates and render
-    question_list = Question.objects.all()
+    question_list = Question.objects.get_queryset().order_by('id')
     # paginator
     paginator = Paginator(object_list=question_list, per_page=1)  # Show 25 contacts per page
     # template = loader.get_template('polls/index.html')
     page = request.GET.get('page')
     latest_question_list = paginator.get_page(page)
     context = {
-        'latest_question_list': latest_question_list,
+        'latest_question_list': latest_question_list
     }
     # return HttpResponse(template.render(context, request))
     return render(request, 'polls/index.html', context)
