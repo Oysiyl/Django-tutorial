@@ -7,19 +7,46 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 from .models import Question, Choice
+from .forms import QuestionForm
 
 # Add a new views here
 
 
-def listing(request):
-    contact_list = Question.objects.all()
-    paginator = Paginator(contact_list, 1)  # Show 25 contacts per page
+def question_new(request, template='polls/sub_new.html'):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            # Unpack form values
+            question_text = form.cleaned_data['question_text']
+            choice_text_1 = form.cleaned_data['choice_text_1']
+            choice_text_2 = form.cleaned_data['choice_text_2']
+            choice_text_3 = form.cleaned_data['choice_text_3']
+            # Create the User record
+            q = Question(question_text=question_text, pub_date=timezone.now())
+            q.save()
+            q.choice_set.create(choice_text=choice_text_1, votes=0)
+            q.choice_set.create(choice_text=choice_text_2, votes=0)
+            q.choice_set.create(choice_text=choice_text_3, votes=0)
 
-    page = request.GET.get('page')
-    contacts = paginator.get_page(page)
-    return render(request, 'polls/list.html', {'contacts': contacts})
+            # Create Subscriber Record
+            # Process payment (via Stripe)
+            # Auto login the user
+            return HttpResponseRedirect(reverse(('polls:index')))
+    else:
+        form = QuestionForm()
+
+    return render(request, template, {'form': form})
+
+
+def listing(request, question_text):
+    q = Question(question_text="", pub_date=timezone.now())
+    # q.save()
+    question_list = Question.objects.all()
+    # return HttpResponseRedirect(reverse('polls/list.html', args=(q.question_text,)))
+    return render(request, 'polls/list.html', {'question_text': q.question_text})
 
 
 class SignUp(generic.CreateView):

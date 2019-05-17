@@ -1,29 +1,12 @@
-{% if contacts %}
-    <ul>
-    {% for question in contacts %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-
-    {% endfor %}
-    </ul>
-    <p></p>
+{% if user.is_authenticated %}
+    <form action="{% url 'polls:listing' question.question_text %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="text" id="text" value="Listing">
+    <label for="text">{{ question.question_text }}</label><br>
+<input type="submit" value="Listing">
+</form>
+    <p>You can logout here</p>
+    <p><a href="{% url 'polls:logout' %}">logout</a></p>
 {% else %}
-    <p>No polls are available.</p>
+  <p>You are not logged in</p>
 {% endif %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if contacts.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ contacts.previous_page_number }}">previous</a>
-        {% endif %}
-
-        {% if contacts.has_next %}
-            <a href="?page={{ contacts.next_page_number }}">next</a>
-            <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-    <p></p>
-    <span class="current">
-        Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
-    </span>
-</div>

@@ -29,12 +29,16 @@
     </span>
 </div>
 {% if user.is_authenticated %}
+    <p>You can create new question here</p>
+    <p><a href="{% url 'polls:sub_new' %}">Create question</a></p>
     <p>You can logout here</p>
     <p><a href="{% url 'polls:logout' %}">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
   <p>So you can see question and results, but you can not vote</p>
+  <p>Also you can not create a new question</p>
   <p>For seeing results, please, select a question above</p>
+  <p>For creating question, please, login</p>
   <p>Have account?</p>
   <a href="{% url 'polls:login' %}">login</a>
   <p>If you for a first time here</p>
