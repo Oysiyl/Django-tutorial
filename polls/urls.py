@@ -16,7 +16,6 @@ urlpatterns = [
     # ex: /polls/5/vote/
     # path('<int:question_id>/vote/', views.vote, name='vote'),
     # New generic views
-    path('list/', views.listing, name='list'),
     path('sub_new/', views.question_new, name='sub_new'),
     # path('', views.IndexView.as_view(template_name='polls/index.html'), name='index'),
     path('', views.index, name='index'),

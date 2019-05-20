@@ -12,7 +12,15 @@ from django.utils import timezone
 from .models import Question, Choice
 from .forms import QuestionForm
 
+from django.contrib.auth.models import User
+from rest_framework import generics
+from serializers import UserSerializer
 # Add a new views here
+
+
+class UserListAPIView(generics.ListAPIView):  # try habr
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 def question_new(request, template='polls/sub_new.html'):
@@ -39,14 +47,6 @@ def question_new(request, template='polls/sub_new.html'):
         form = QuestionForm()
 
     return render(request, template, {'form': form})
-
-
-def listing(request, question_text):
-    q = Question(question_text="", pub_date=timezone.now())
-    # q.save()
-    question_list = Question.objects.all()
-    # return HttpResponseRedirect(reverse('polls/list.html', args=(q.question_text,)))
-    return render(request, 'polls/list.html', {'question_text': q.question_text})
 
 
 class SignUp(generic.CreateView):
