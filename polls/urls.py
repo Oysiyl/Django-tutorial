@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView  # new
 from django.contrib import admin
 
-from . import views
+from . import views, apiviews
 
 app_name = 'polls'  # For one app not needed
 urlpatterns = [
@@ -16,6 +16,11 @@ urlpatterns = [
     # ex: /polls/5/vote/
     # path('<int:question_id>/vote/', views.vote, name='vote'),
     # New generic views
+    path('questions/', apiviews.questions_view, name='questions_view'),
+    path('questions/<int:question_id>/', apiviews.question_detail_view, name='question_detail_view'),
+    path('questions/<int:question_id>/choices/', apiviews.choices_view, name='choices_view'),
+    path('questions/<int:question_id>/vote/', apiviews.vote_view, name='vote_view'),
+    path('questions/<int:question_id>/result/', apiviews.question_result_view, name='question_result_view'),
     path('password_change/', views.password_change, name='update_password'),
     path('new_question/', views.question_new, name='new_question'),
     # path('', views.IndexView.as_view(template_name='polls/index.html'), name='index'),

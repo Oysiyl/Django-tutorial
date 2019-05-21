@@ -28,6 +28,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/password_change/', views.password_change, name='update_password'),
     # path('api/v1/auth/login/', obtain_jwt_token),
+    path('api/polls/', include('polls.urls')),
+    # API again!
     path('polls/login/', obtain_jwt_token),
     path('api/v1/auth/refresh/', refresh_jwt_token),
     path('api/v1/auth/verify/', verify_jwt_token),
