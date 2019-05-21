@@ -6,10 +6,12 @@
 {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}! Your e-mail is {{ user.email }}, yep?
-  <p>You are now logged in and can go to polls:</p>
+  <p>You are now logged in and you can go to polls:</p>
   <p><a href="{% url 'polls:index' %}">polls</a></p>
   <p>logout<p>
   <p><a href="{% url 'polls:logout' %}">logout</a></p>
+  <p>change password</p>
+  <p><a href="{% url 'password_change' %}">change password</a></p>
   <p>reset password</p>
   <p><a href="{% url 'password_reset' %}">reset password</a></p>
 {% else %}

@@ -11,10 +11,13 @@ from django.utils import timezone
 
 from .models import Question, Choice
 from .forms import QuestionForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth.models import User
 from rest_framework import generics
 from serializers import UserSerializer
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 # Add a new views here
 
 
@@ -23,7 +26,25 @@ class UserListAPIView(generics.ListAPIView):  # try habr
     serializer_class = UserSerializer
 
 
-def question_new(request, template='polls/sub_new.html'):
+# @login_required
+def password_change(request, template="registration/password_change.html"):
+    # form = PasswordChangeForm(user=request.user, data=request.POST)
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return HttpResponseRedirect(reverse(('polls:index')))
+        # else:
+        #     return HttpResponseRedirect(reverse(("update_password")))
+    else:
+        form = PasswordChangeForm(user=request.user)
+    args = {'form': form}
+    return render(request, template, args)
+
+
+def question_new(request, template='polls/new_question.html'):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():

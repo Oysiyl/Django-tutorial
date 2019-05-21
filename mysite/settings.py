@@ -140,11 +140,12 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
+# Turn translation mode off
+USE_I18N = False
+# Django will display numbers and dates using the format
+# of the current locale if True
 USE_L10N = True
-
+# Django will use timezone-aware datetimes internally if True
 USE_TZ = True
 
 

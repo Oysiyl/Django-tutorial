@@ -28,9 +28,11 @@
         Page {{ latest_question_list.number }} of {{ latest_question_list.paginator.num_pages }}.
     </span>
 </div>
+<p>Go to home</p>
+<p><a href="{% url 'home' %}">Home</a></p>
 {% if user.is_authenticated %}
     <p>You can create new question here</p>
-    <p><a href="{% url 'polls:sub_new' %}">Create question</a></p>
+    <p><a href="{% url 'polls:new_question' %}">Create question</a></p>
     <p>You can logout here</p>
     <p><a href="{% url 'polls:logout' %}">logout</a></p>
 {% else %}
