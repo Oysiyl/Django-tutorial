@@ -1,0 +1,19 @@
+<!-- templates/registration/email_change.html -->
+{% extends 'base.html' %}
+
+{% block title %}What to change your email?{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>Set a new email!</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update email">
+  </form>
+{% else %}
+<h1>You shouldn't be here!</h1>
+<p>Anyway, here is nothing interesting</p>
+<p>So, please, get rid of it!</p>
+{% endif %}
+{% endblock %}

@@ -21,7 +21,9 @@ urlpatterns = [
     path('questions/<int:question_id>/choices/', apiviews.choices_view, name='choices_view'),
     path('questions/<int:question_id>/vote/', apiviews.vote_view, name='vote_view'),
     path('questions/<int:question_id>/result/', apiviews.question_result_view, name='question_result_view'),
-    path('password_change/', views.password_change, name='update_password'),
+    # API
+    path('password_change/', views.password_change, name='password_change'),
+    path('email_change/', views.email_change, name='email_change'),
     path('new_question/', views.question_new, name='new_question'),
     # path('', views.IndexView.as_view(template_name='polls/index.html'), name='index'),
     path('', views.index, name='index'),

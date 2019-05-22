@@ -26,7 +26,8 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('polls/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
-    path('polls/password_change/', views.password_change, name='update_password'),
+    path('polls/password_change/', views.password_change, name='password_change'),
+    path('polls/email_change/', views.email_change, name='email_change'),
     # path('api/v1/auth/login/', obtain_jwt_token),
     path('api/polls/', include('polls.urls')),
     # API again!

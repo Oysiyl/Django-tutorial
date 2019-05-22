@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 
 from .models import Question, Choice
-from .forms import QuestionForm
+from .forms import QuestionForm, EmailChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth.models import User
@@ -40,6 +40,22 @@ def password_change(request, template="registration/password_change.html"):
         #     return HttpResponseRedirect(reverse(("update_password")))
     else:
         form = PasswordChangeForm(user=request.user)
+    args = {'form': form}
+    return render(request, template, args)
+
+
+# @login_required
+def email_change(request, template="registration/email_change.html"):
+    if request.method == 'GET':
+        form = EmailChangeForm(user=request.user)
+    elif request.method == 'POST':
+        form = EmailChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return HttpResponseRedirect(reverse(('polls:index')))
+    else:
+        form = EmailChangeForm(user=request.user)
     args = {'form': form}
     return render(request, template, args)
 
