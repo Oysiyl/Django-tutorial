@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+
 
 class QuestionForm(forms.Form):
     question_text = forms.CharField(max_length=100)
@@ -10,6 +13,11 @@ class QuestionForm(forms.Form):
     choice_text_2 = forms.CharField(max_length=100)
     choice_text_3 = forms.CharField(max_length=100)
 
+
+class ContactForm(forms.Form):
+    from_email = forms.EmailField(required=True)
+    subject = forms.CharField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)
 
 # class ChangePasswordForm(PasswordChangeForm):
 
@@ -22,25 +30,42 @@ class EmailChangeForm(forms.Form):
 
     current_password = forms.CharField(
         label=("Current Password"),
-        widget=forms.PasswordInput,
-        required=True
+        widget=forms.PasswordInput(
+            attrs={
+                'style': 'border-color:blue;',
+                'placeholder': 'Write your pass here'
+            }
+        ),
+        required=True,
+        help_text="I hope you know your password"
     )
 
     new_email1 = forms.EmailField(
         label=("New E-mail Address"),
+        widget=forms.EmailInput(attrs={'style': 'border-color: green;',
+                                       'placeholder': 'Enter email'}),
         max_length=254,
-        required=True
+        required=True,
+        help_text='Type here new email'
     )
 
     new_email2 = forms.EmailField(
         label=("Confirm New E-mail Address"),
+        widget=forms.EmailInput(attrs={'style': 'border-color: orange;',
+                                       'placeholder': 'Enter email again'}),
         max_length=254,
-        required=True
+        required=True,
+        help_text='Confirm by typing email again'
     )
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(EmailChangeForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Save person'))
+
 
     def clean_current_password(self):
         """

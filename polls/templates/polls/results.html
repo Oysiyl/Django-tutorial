@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <h1>{{ question.question_text }}</h1>
 
 <ul>
@@ -13,3 +15,4 @@
     <p><a href="{% url 'polls:detail' question.id %}">Want to vote?(back to this question)</p>
 {% endif %}
 <p><a href="{% url 'polls:index' %}">Go back to polls</a></p>
+{% endblock %}

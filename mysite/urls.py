@@ -29,8 +29,10 @@ urlpatterns = [
     path('polls/password_change/', views.password_change, name='password_change'),
     path('polls/email_change/', views.email_change, name='email_change'),
     # path('api/v1/auth/login/', obtain_jwt_token),
-    path('api/polls/', include('polls.urls')),
+    # path('api/polls/', include('polls.urls')),
     # API again!
+    path('email/', views.emailView, name='email'),
+    path('success/', views.successView, name='success'),
     path('polls/login/', obtain_jwt_token),
     path('api/v1/auth/refresh/', refresh_jwt_token),
     path('api/v1/auth/verify/', verify_jwt_token),
@@ -41,5 +43,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),  # new
     path('polls/login/', TemplateView.as_view(template_name='login.html'), name='login'),  # new
-    # path('accounts/', include('accounts.urls')),  # new
+    # path('accounts/', include('django.contrib.auth.urls')),  # new
 ]

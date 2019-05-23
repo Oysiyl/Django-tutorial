@@ -1,0 +1,9 @@
+<!--mysite/polls/templates/polls/contact.html-->
+
+{% extends "base.html" %}
+
+{% block content %}
+<p>Hello from the contact page</p>
+<p>You can contact us through the form, available</p>
+<p><a href="{% url 'email' %}">here</a></p>
+{% endblock %}

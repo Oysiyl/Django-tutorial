@@ -2,15 +2,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import Http404
 from django.contrib.auth.forms import UserCreationForm
 # from django.template import loader
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.utils import timezone
 
+from django.core.mail import send_mail, BadHeaderError
+
 from .models import Question, Choice
 from .forms import QuestionForm, EmailChangeForm
+from .forms import ContactForm
 from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth.models import User
@@ -18,6 +21,8 @@ from rest_framework import generics
 from serializers import UserSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import logout
+from django.contrib.auth import login, authenticate
 # Add a new views here
 
 
@@ -90,6 +95,27 @@ class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+
+def emailView(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(subject, message, from_email, ['admin@example.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('success')
+    return render(request, "email.html", {'form': form})
+
+
+def successView(request):
+    return HttpResponse('Success! Thank you for your message.')
 
 
 def index(request):
@@ -165,6 +191,34 @@ class DetailView(generic.DetailView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = "polls/results.html"
+
+
+def login_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return render(request, 'polls/index.html')
+    else:
+        print("You are not logged in!")
+
+
+def about(request):
+    context = {}
+    # return HttpResponse('hello from about')
+    return render(request, 'polls/about.html', context)
+
+
+def contact(request):
+    context = {}
+    # return HttpResponse('hello from contact')
+    return render(request, 'polls/contact.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'polls/index.html')
 
 
 def vote(request, question_id):

@@ -3,5 +3,6 @@ django-rest-framework
 djangorestframework
 djangorestframework-jwt # this is hard (try habr)
 djangorestframework_simplejwt # this is more simple
+django-crispy-forms # added this for "crispy" forms
 pygments
 python-dotenv
