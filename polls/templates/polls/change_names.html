@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Create new question{% endblock title %}
+{% block title %}Change firstname/lastname{% endblock title %}
 
 {% block content %}
 <form action="." method="post">
@@ -8,13 +8,13 @@
     <p>For now you known as {{ user.get_full_name }}</p>
     <p>Would you like to change those information about you?</p>
     <p>Type password for this action:</p>
-    {{ form.password_field|as_crispy_field:"bootstrap" }}
+    {{ form.password_field|as_crispy_field }}
     <p>Text for first choice</p>
-    {{ form.first_name|as_crispy_field:"bootstrap" }}
+    {{ form.first_name|as_crispy_field }}
     <p>Text for second choice</p>
-    {{ form.last_name|as_crispy_field:"bootstrap" }}
+    {{ form.last_name|as_crispy_field }}
     <p></p>
-    <!--<input type="submit" value="submit">-->
-    <button type="submit" class="btn btn-primary">Change names</button>
+    <!--<input type="submit" value="submit">Submit</input>-->
+    <button type="submit" class="btn btn-dark">Change names</button>
 </form>
 {% endblock %}

@@ -132,7 +132,7 @@ def emailView(request):
 
 
 def successView(request):
-    return HttpResponse('Success! Thank you for your message.')
+    return render(request, 'polls/success.html')
 
 
 def index(request):

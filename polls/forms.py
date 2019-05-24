@@ -15,20 +15,49 @@ class QuestionForm(forms.Form):
 
 
 class ContactForm(forms.Form):
-    from_email = forms.EmailField(required=True)
-    subject = forms.CharField(required=True)
-    message = forms.CharField(widget=forms.Textarea, required=True)
+    from_email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(
+            attrs={'style': 'border-color: orange;',
+                   'placeholder': 'Enter email here'},
+            ),
+        help_text="We check this out, so type a real email!"
+        )
+    subject = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'style': 'border-color: blue;',
+                   'placeholder': 'Enter subject here'}
+                ),
+        help_text="Choose a real subject"
+        )
+    message = forms.CharField(
+            widget=forms.Textarea(
+                  attrs={'style': 'border-color: green',
+                         'placeholder': 'Enter your message here'}
+                   ),
+            required=True,
+            help_text="Write what you want here"
+            )
 
 
 class NamesForm(forms.Form):
     password_field = forms.CharField(
         label='Current password',
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={'style': 'border-color: green;',
+                                          'placeholder': 'Enter password'}),
         required=True,
         help_text="I hope you know your password"
         )
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=150)
+    first_name = forms.CharField(max_length=30, widget=forms.Textarea(
+                                 attrs={'style': 'border-color: yellow;',
+                                        'placeholder': 'Enter first_name'}),
+                                 help_text="First_name type here"
+                                 )
+    last_name = forms.CharField(max_length=150, widget=forms.Textarea(
+                                attrs={'style': 'border-color: blue;',
+                                       'placeholder': "Enter second_name"}),
+                                help_text="Second_name type here")
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -36,7 +65,7 @@ class NamesForm(forms.Form):
 
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save person'))
+        # self.helper.add_input(Submit('submit', 'Save person'))
 
     def clean_current_password(self):
         """

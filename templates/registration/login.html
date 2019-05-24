@@ -9,7 +9,7 @@
   {% load crispy_forms_tags %}
   {% csrf_token %}
   {{ form|crispy }}
-  <button type="submit" class="btn btn-primary">Login</button>
+  <button type="submit" class="btn btn-dark">Login</button>
 </form>
 <p>reset password</p>
 <p><a href="{% url 'password_reset' %}">reset password</a></p>
