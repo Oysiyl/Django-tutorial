@@ -19,7 +19,43 @@ class ContactForm(forms.Form):
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
 
+
+class NamesForm(forms.Form):
+    password_field = forms.CharField(
+        label='Current password',
+        widget=forms.PasswordInput(),
+        required=True,
+        help_text="I hope you know your password"
+        )
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=150)
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(NamesForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Save person'))
+
+    def clean_current_password(self):
+        """
+        Validates that the password field is correct.
+        """
+        password_field = self.cleaned_data["password_field"]
+        if not self.user.check_password(password_field):
+            raise forms.ValidationError(self.error_messages['password_incorrect'], code='password_incorrect',)
+        return password_field
+
+    def save(self, commit=True):
+        self.user.first_name = self.cleaned_data['first_name']
+        self.user.last_name = self.cleaned_data['last_name']
+        if commit:
+            self.user.save()
+        return self.user
+
 # class ChangePasswordForm(PasswordChangeForm):
+
 
 class EmailChangeForm(forms.Form):
     error_messages = {
@@ -65,7 +101,6 @@ class EmailChangeForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save person'))
-
 
     def clean_current_password(self):
         """

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Create new question{% endblock title %}
+
+{% block content %}
+<form action="." method="post">
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    <p>For now you known as {{ user.get_full_name }}</p>
+    <p>Would you like to change those information about you?</p>
+    <p>Type password for this action:</p>
+    {{ form.password_field|as_crispy_field:"bootstrap" }}
+    <p>Text for first choice</p>
+    {{ form.first_name|as_crispy_field:"bootstrap" }}
+    <p>Text for second choice</p>
+    {{ form.last_name|as_crispy_field:"bootstrap" }}
+    <p></p>
+    <!--<input type="submit" value="submit">-->
+    <button type="submit" class="btn btn-primary">Change names</button>
+</form>
+{% endblock %}

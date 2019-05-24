@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/password_change/', views.password_change, name='password_change'),
     path('polls/email_change/', views.email_change, name='email_change'),
+    path('polls/change_names/', views.change_names, name='change_names'),
     # path('api/v1/auth/login/', obtain_jwt_token),
     # path('api/polls/', include('polls.urls')),
     # API again!
