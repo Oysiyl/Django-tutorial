@@ -14,6 +14,7 @@ from django.core.mail import send_mail, BadHeaderError
 from .models import Question, Choice
 from .forms import QuestionForm, EmailChangeForm
 from .forms import ContactForm, NamesForm
+from .forms import PasswordChangeForm2
 from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib.auth.models import User
@@ -36,7 +37,7 @@ def password_change(request, template="registration/password_change.html"):
     # form = PasswordChangeForm(user=request.user, data=request.POST)
 
     if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data=request.POST)
+        form = PasswordChangeForm2(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
@@ -44,7 +45,7 @@ def password_change(request, template="registration/password_change.html"):
         # else:
         #     return HttpResponseRedirect(reverse(("update_password")))
     else:
-        form = PasswordChangeForm(user=request.user)
+        form = PasswordChangeForm2(user=request.user)
     args = {'form': form}
     return render(request, template, args)
 
@@ -67,7 +68,8 @@ def email_change(request, template="registration/email_change.html"):
 
 def change_names(request, template="polls/change_names.html"):
     # form = PasswordChangeForm(user=request.user, data=request.POST)
-
+    if request.method == 'GET':
+        form = NamesForm(user=request.user)
     if request.method == 'POST':
         form = NamesForm(user=request.user, data=request.POST)
         if form.is_valid():

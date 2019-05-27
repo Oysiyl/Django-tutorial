@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-static-top navbar-dark bg-dark">
+<!--mysite/polls/templates/polls/header.html-->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
   <!-- Image and text -->
   <a class="navbar-brand" href="{% url 'home' %}">
     {% load static %}
@@ -7,7 +8,7 @@
   </a>
   <ul class="navbar-nav mr-auto">
     <li class="nav-item {{ home_page }}">
-      <a class="nav-link" href="{% url 'home' %}">Home</a>
+      <a class="nav-link" href="{% url 'polls:index' %}">Polls</a>
   </ul>
   {% if user.is_authenticated %}
   <ul class="navbar-nav ml-auto">

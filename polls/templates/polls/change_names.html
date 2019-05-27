@@ -1,8 +1,11 @@
+<!-- mysite/polls/templates/change_names.html -->
 {% extends 'base.html' %}
 {% block title %}Change firstname/lastname{% endblock title %}
-
 {% block content %}
-<form action="." method="post">
+
+{% if user.is_authenticated %}
+  <h2>Create a new first/last names pair!</h2>
+  <form method="post" novalidate>
     {% csrf_token %}
     {% load crispy_forms_tags %}
     <p>For now you known as {{ user.get_full_name }}</p>
@@ -16,5 +19,10 @@
     <p></p>
     <!--<input type="submit" value="submit">Submit</input>-->
     <button type="submit" class="btn btn-dark">Change names</button>
-</form>
+  </form>
+{% else %}
+<h2>You shouldn't be here!</h2>
+<p>Anyway, here is nothing interesting</p>
+<p>So, please, get rid of it!</p>
+{% endif %}
 {% endblock %}

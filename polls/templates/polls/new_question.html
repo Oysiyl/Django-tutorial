@@ -1,20 +1,22 @@
+<!--mysite/polls/templates/polls/new_question.html-->
 {% extends 'base.html' %}
-{% block title %}Create new question{% endblock title %}
+{% block title %}Create a new question{% endblock title %}
 
 {% block content %}
 <form action="." method="post">
-    {% csrf_token %}
-    {% load crispy_forms_tags %}
-    <p>Type text for question</p>
-    {{ form.question_text|as_crispy_field:"bootstrap" }}
-    <p>Text for first choice</p>
-    {{ form.choice_text_1|as_crispy_field:"bootstrap" }}
-    <p>Text for second choice</p>
-    {{ form.choice_text_2|as_crispy_field:"bootstrap" }}
-    <p>Text for third choice</p>
-    {{ form.choice_text_3|as_crispy_field:"bootstrap" }}
-    <p></p>
-    <!--<input type="submit" value="submit">-->
-    <button type="submit" class="btn btn-dark">Submit</button>
+  <h2>Create a new question</h2>
+  {% csrf_token %}
+  {% load crispy_forms_tags %}
+  <p>Type text for question</p>
+  {{ form.question_text|as_crispy_field }}
+  <p>Text for first choice</p>
+  {{ form.choice_text_1|as_crispy_field }}
+  <p>Text for second choice</p>
+  {{ form.choice_text_2|as_crispy_field }}
+  <p>Text for third choice</p>
+  {{ form.choice_text_3|as_crispy_field }}
+  <p></p>
+  <!--<input type="submit" value="submit">-->
+  <button type="submit" class="btn btn-dark">Submit</button>
 </form>
 {% endblock %}

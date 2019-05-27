@@ -24,6 +24,7 @@ urlpatterns = [
     # API
     path('password_change/', views.password_change, name='password_change'),
     path('email_change/', views.email_change, name='email_change'),
+    path('change_names/', views.change_names, name='change_names'),
     path('new_question/', views.question_new, name='new_question'),
     # path('', views.IndexView.as_view(template_name='polls/index.html'), name='index'),
     path('', views.index, name='index'),

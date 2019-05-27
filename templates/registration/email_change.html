@@ -1,16 +1,16 @@
 <!-- templates/registration/email_change.html -->
 {% extends 'base.html' %}
-{% block title %}What to change your email?{% endblock %}
+{% block title %}What to change your email?{% endblock title %}
 {% block content %}
 
 {% if user.is_authenticated %}
-<h1>Set a new email!</h1>
+  <h2>Set a new email!</h2>
   <form method="post" novalidate>
     {% csrf_token %}
     {% load crispy_forms_tags %}
     {{ form|crispy }}
-  <!--<input type="submit" value="Update email">-->
-  <button type="submit" class="btn btn-dark">Submit</button>
+    <!--<input type="submit" value="Update email">-->
+    <button type="submit" class="btn btn-dark">Submit</button>
   </form>
 {% else %}
 <h1>You shouldn't be here!</h1>

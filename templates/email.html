@@ -1,7 +1,8 @@
 <!-- templates/email.html -->
 {% extends 'base.html' %}
+{% block title %}Password reset complete{% endblock %}
 {% block content %}
-<h1>Contact Us</h1>
+<h2>Contact Us</h2>
 <form method="post">
     {% csrf_token %}
     {% load crispy_forms_tags %}

@@ -1,7 +1,10 @@
+<!--mysite/polls/templates/polls/index.html-->
 {% extends "base.html" %}
+{% block title %}Index{% endblock %}
 <!--{% load static %}-->
 <!--<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">-->
 {% block content %}
+<h2>Index</h2>
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}

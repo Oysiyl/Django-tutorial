@@ -1,6 +1,8 @@
+<!--mysite/polls/templates/polls/results.html-->
 {% extends "base.html" %}
+{% block title %}{{ question.question_text }}{% endblock %}
 {% block content %}
-<h1>{{ question.question_text }}</h1>
+<h2>{{ question.question_text }}</h2>
 
 <ul>
 {% for choice in question.choice_set.all %}

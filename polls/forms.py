@@ -6,12 +6,53 @@ from django.contrib.auth.forms import PasswordChangeForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+# from django.template.defaultfilters import linebreaks
+# from django.template.defaultfilters import linebreaksbr
+# from django.utils.safestring import mark_safe
+
+
+text_for_pass = (
+    "<ul><li>Your password can't be too similar to your other personal information.</li>"
+    "<li>Your password must contain at least 8 characters.</li>"
+    "<li>Your password can't be a commonly used password.</li>"
+    "<li>Your password can't be entirely numeric.</li></ul>"
+    )
+
 
 class QuestionForm(forms.Form):
-    question_text = forms.CharField(max_length=100)
-    choice_text_1 = forms.CharField(max_length=100)
-    choice_text_2 = forms.CharField(max_length=100)
-    choice_text_3 = forms.CharField(max_length=100)
+
+    question_text = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'style': 'border-color: red;',
+                   'placeholder': 'Enter your question here'},
+            ),
+        help_text="New question should be interesting!"
+        )
+    choice_text_1 = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'style': 'border-color: green;',
+                   'placeholder': 'Enter first choice here'},
+            ),
+        help_text="Type first choice!"
+        )
+    choice_text_2 = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'style': 'border-color: orange;',
+                   'placeholder': 'Enter second choice here'},
+            ),
+        help_text="Type second choice!"
+        )
+    choice_text_3 = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'style': 'border-color: blue;',
+                   'placeholder': 'Enter third here'},
+            ),
+        help_text="Type third choice!"
+        )
 
 
 class ContactForm(forms.Form):
@@ -49,12 +90,12 @@ class NamesForm(forms.Form):
         required=True,
         help_text="I hope you know your password"
         )
-    first_name = forms.CharField(max_length=30, widget=forms.Textarea(
+    first_name = forms.CharField(max_length=30, widget=forms.TextInput(
                                  attrs={'style': 'border-color: yellow;',
                                         'placeholder': 'Enter first_name'}),
                                  help_text="First_name type here"
                                  )
-    last_name = forms.CharField(max_length=150, widget=forms.Textarea(
+    last_name = forms.CharField(max_length=150, widget=forms.TextInput(
                                 attrs={'style': 'border-color: blue;',
                                        'placeholder': "Enter second_name"}),
                                 help_text="Second_name type here")
@@ -65,7 +106,7 @@ class NamesForm(forms.Form):
 
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        # self.helper.add_input(Submit('submit', 'Save person'))
+        self.helper.add_input(Submit('submit', 'Save person'))
 
     def clean_current_password(self):
         """
@@ -165,3 +206,39 @@ class EmailChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+
+class PasswordChangeForm2(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: orange;',
+                'placeholder': 'type here old password',
+                'id': 'hi1',
+            }),
+        help_text="Check if it is really you are",
+        )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: green;',
+                'placeholder': 'type new password',
+                'id': 'Imagine a new password',
+            }),
+        help_text=text_for_pass)
+
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: blue;',
+                'placeholder': 'type new password again',
+                'id': 'hi3',
+            }),
+        help_text="Check new password",
+        )
