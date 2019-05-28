@@ -24,12 +24,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import logout
 from django.contrib.auth import login, authenticate
+from rest_framework import permissions
 # Add a new views here
 
 
 class UserListAPIView(generics.ListAPIView):  # try habr
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permissions_classes = (permissions.AllowAny,)
 
 
 # @login_required

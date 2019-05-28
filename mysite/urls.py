@@ -21,6 +21,9 @@ from polls.views import UserListAPIView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 import polls.views as views
+from rest_framework.schemas import get_schema_view
+
+schema_view = get_schema_view(title='Pastebin API')
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
@@ -31,6 +34,7 @@ urlpatterns = [
     path('polls/change_names/', views.change_names, name='change_names'),
     # path('api/v1/auth/login/', obtain_jwt_token),
     # path('api/polls/', include('polls.urls')),
+    path('schema/', schema_view),
     # API again!
     path('email/', views.emailView, name='email'),
     path('success/', views.successView, name='success'),

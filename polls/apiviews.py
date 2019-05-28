@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -26,7 +27,7 @@ def questions_view(request):
         serializer = QuestionListPageSerializer(data=request.data)
         if serializer.is_valid():
             question = serializer.save()
-            return Response(QuestionSerializer(question).data, status=status.HTTP_201_CREATED)
+            return Response(QuestionListPageSerializer(question).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
