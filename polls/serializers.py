@@ -17,7 +17,6 @@ class ChoiceSerializer(serializers.Serializer):
 class QuestionListPageSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     question_text = serializers.CharField(max_length=200)
-    # pub_date = serializers.DateTimeField()
     pub_date = serializers.DateTimeField(default=timezone.now())
     was_published_recently = serializers.BooleanField(read_only=True)  # Serializer is smart enough to understand that was_published_recently is a method on Question
 

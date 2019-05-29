@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django import forms
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -15,7 +16,8 @@ from .models import Question, Choice
 from .forms import QuestionForm, EmailChangeForm
 from .forms import ContactForm, NamesForm
 from .forms import PasswordChangeForm2
-from django.contrib.auth.forms import PasswordChangeForm
+from .forms import SignUpForm, LoginForm
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 
 from django.contrib.auth.models import User
 from rest_framework import generics
@@ -37,8 +39,9 @@ class UserListAPIView(generics.ListAPIView):  # try habr
 # @login_required
 def password_change(request, template="registration/password_change.html"):
     # form = PasswordChangeForm(user=request.user, data=request.POST)
-
-    if request.method == 'POST':
+    if request.method == 'GET':
+        form = PasswordChangeForm2(user=request.user)
+    elif request.method == 'POST':
         form = PasswordChangeForm2(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
@@ -68,7 +71,7 @@ def email_change(request, template="registration/email_change.html"):
     return render(request, template, args)
 
 
-def change_names(request, template="polls/change_names.html"):
+def change_names(request, template="registration/change_names.html"):
     # form = PasswordChangeForm(user=request.user, data=request.POST)
     if request.method == 'GET':
         form = NamesForm(user=request.user)
@@ -112,10 +115,48 @@ def question_new(request, template='polls/new_question.html'):
     return render(request, template, {'form': form})
 
 
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+
+def login_view2(request, template='registration/login.html'):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        # username = form.cleaned_data.get('username')
+        # password = form.cleaned_data.get('password1')
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        '''
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse(('polls:index')))
+        '''
+        if form.is_valid():
+            # form.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse(('home')))
+    else:
+        form = LoginForm()
+    return render(request, template, {'form': form})
+
+
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'registration/signup.html'
 
 
 def emailView(request):
@@ -136,7 +177,7 @@ def emailView(request):
 
 
 def successView(request):
-    return render(request, 'polls/success.html')
+    return render(request, 'success.html')
 
 
 def index(request):
@@ -214,27 +255,14 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
 
-def login_view(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return render(request, 'polls/index.html')
-    else:
-        print("You are not logged in!")
-
-
 def about(request):
     context = {}
-    # return HttpResponse('hello from about')
-    return render(request, 'polls/about.html', context)
+    return render(request, 'about.html', context)
 
 
 def contact(request):
     context = {}
-    # return HttpResponse('hello from contact')
-    return render(request, 'polls/contact.html', context)
+    return render(request, 'contact.html', context)
 
 
 def logout_view(request):

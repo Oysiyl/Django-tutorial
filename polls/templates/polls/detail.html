@@ -15,7 +15,7 @@
 <button type="submit" class="btn btn-dark">Vote</button>
 </form>
     <p>You can logout here</p>
-    <p><a href="{% url 'polls:logout' %}">logout</a></p>
+    <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
   {% for choice in question.choice_set.all %}
   <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
@@ -25,9 +25,9 @@
   <p>So you can see question and results, but you can not vote</p>
   <p><a href="{% url 'polls:results' question.id %}">View results for this question</a></p>
   <p>Have account?</p>
-  <a href="{% url 'polls:login' %}">login</a>
+  <a href="{% url 'login' %}">login</a>
   <p>If you for a first time here</p>
-  <a href="{% url 'polls:signup' %}">signup</a>
+  <a href="{% url 'signup' %}">signup</a>
 {% endif %}
 
 <p><a href="{% url 'polls:index' %}">Go to polls</a></p>

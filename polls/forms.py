@@ -73,21 +73,21 @@ class ContactForm(forms.Form):
         help_text="Choose a real subject"
         )
     message = forms.CharField(
-            widget=forms.Textarea(
-                  attrs={'style': 'border-color: green',
-                         'placeholder': 'Enter your message here'}
-                   ),
-            required=True,
-            help_text="Write what you want here"
-            )
+        required=True,
+        widget=forms.Textarea(
+              attrs={'style': 'border-color: green',
+                     'placeholder': 'Enter your message here'}
+               ),
+        help_text="Write what you want here"
+        )
 
 
 class NamesForm(forms.Form):
     password_field = forms.CharField(
+        required=True,
         label='Current password',
         widget=forms.PasswordInput(attrs={'style': 'border-color: green;',
                                           'placeholder': 'Enter password'}),
-        required=True,
         help_text="I hope you know your password"
         )
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(
@@ -135,6 +135,7 @@ class EmailChangeForm(forms.Form):
     }
 
     current_password = forms.CharField(
+        required=True,
         label=("Current Password"),
         widget=forms.PasswordInput(
             attrs={
@@ -142,25 +143,25 @@ class EmailChangeForm(forms.Form):
                 'placeholder': 'Write your pass here'
             }
         ),
-        required=True,
+
         help_text="I hope you know your password"
     )
 
     new_email1 = forms.EmailField(
+        required=True,
         label=("New E-mail Address"),
         widget=forms.EmailInput(attrs={'style': 'border-color: green;',
                                        'placeholder': 'Enter email'}),
         max_length=254,
-        required=True,
         help_text='Type here new email'
     )
 
     new_email2 = forms.EmailField(
+        required=True,
         label=("Confirm New E-mail Address"),
         widget=forms.EmailInput(attrs={'style': 'border-color: orange;',
                                        'placeholder': 'Enter email again'}),
         max_length=254,
-        required=True,
         help_text='Confirm by typing email again'
     )
 
@@ -213,6 +214,7 @@ class PasswordChangeForm2(PasswordChangeForm):
         super().__init__(*args, **kwargs)
 
     old_password = forms.CharField(
+        required=True,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -223,6 +225,7 @@ class PasswordChangeForm2(PasswordChangeForm):
         help_text="Check if it is really you are",
         )
     new_password1 = forms.CharField(
+        required=True,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -230,9 +233,11 @@ class PasswordChangeForm2(PasswordChangeForm):
                 'placeholder': 'type new password',
                 'id': 'Imagine a new password',
             }),
-        help_text=text_for_pass)
+        help_text=text_for_pass,
+        )
 
     new_password2 = forms.CharField(
+        required=True,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -242,3 +247,125 @@ class PasswordChangeForm2(PasswordChangeForm):
             }),
         help_text="Check new password",
         )
+
+
+class SignUpForm(UserCreationForm):
+    # first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    # last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    # email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+
+    username = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: blue;',
+                'placeholder': 'type username',
+            }),
+            help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+            )
+    email = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: green;',
+                'placeholder': 'type email',
+            }),
+            )
+    password1 = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: yellow;',
+                'placeholder': 'type password here',
+            }),
+        help_text=text_for_pass,
+            )
+    password2 = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: red;',
+                'placeholder': 'type password again',
+            }),
+            )
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2', )
+
+
+class PasswordChangeForm3(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    old_password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: orange;',
+                'placeholder': 'type here old password',
+                'id': 'hi1',
+            }),
+        help_text="Check if it is really you are",
+        )
+    new_password1 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: green;',
+                'placeholder': 'type new password',
+                'id': 'Imagine a new password',
+            }),
+        help_text=text_for_pass,
+        )
+
+    new_password2 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: blue;',
+                'placeholder': 'type new password again',
+                'id': 'hi3',
+            }),
+        help_text="Check new password",
+        )
+
+
+class LoginForm(forms.Form):
+    # first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    # last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    # email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+
+    username = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: blue;',
+                'placeholder': 'type username',
+            }),
+        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+            )
+    password = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'style': 'border-color: red;',
+                'placeholder': 'type password again',
+            }),
+        help_text="Type a strong password, which you will forget after few sec"
+            )

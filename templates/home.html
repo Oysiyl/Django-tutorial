@@ -23,7 +23,7 @@ data-postman-var-1="b9dac6630f3b8249aa16"></div>
   <p>You are now logged in and you can go to polls:</p>
   <p><a href="{% url 'polls:index' %}">polls</a></p>
   <p>logout<p>
-  <p><a href="{% url 'polls:logout' %}">logout</a></p>
+  <p><a href="{% url 'logout' %}">logout</a></p>
   <p>Change first_name/last_name</p>
   <p><a href="{% url 'change_names' %}">change names</a></p>
   <p>change email</p>
@@ -37,8 +37,8 @@ data-postman-var-1="b9dac6630f3b8249aa16"></div>
   <p>Want to see polls (questions and results) without login? Welcome here:</p>
   <p><a href="{% url 'polls:index' %}" >Go to polls</a></p>
   <p>Have account?</p>
-  <a href="{% url 'polls:login' %}">login</a>
+  <a href="{% url 'login' %}">login</a>
   <p>If you for a first time here</p>
-  <a href="{% url 'polls:signup' %}">signup</a>
+  <a href="{% url 'signup' %}">signup</a>
 {% endif %}
 {% endblock %}

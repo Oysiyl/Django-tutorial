@@ -12,7 +12,7 @@
 {% if user.is_authenticated %}
     <p><a href="{% url 'polls:detail' question.id %}">Vote again?(back to this question)</a></p>
     <p>You can logout here</p>
-    <p><a href="{% url 'polls:logout' %}">logout</a></p>
+    <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
     <p><a href="{% url 'polls:detail' question.id %}">Want to vote?(back to this question)</p>
 {% endif %}

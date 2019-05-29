@@ -13,16 +13,16 @@
   {% if user.is_authenticated %}
   <ul class="navbar-nav ml-auto">
     <li class="nav-item {{ logout_page }}">
-      <a class="nav-link" href="{% url 'polls:logout' %}">Logout</a>
+      <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </li>
   </ul>
   {% else %}
   <ul class="navbar-nav ml-auto">
     <li class="nav-item {{ login_page }}">
-      <a class="nav-link" href="{% url 'polls:login' %}">Login</a>
+      <a class="nav-link" href="{% url 'login' %}">Login</a>
     </li>
     <li class="nav-item {{ signup_page }}">
-      <a class="nav-link" href="{% url 'polls:signup' %}">Signup</a>
+      <a class="nav-link" href="{% url 'signup' %}">Signup</a>
     </li>
   </ul>
   {% endif %}
