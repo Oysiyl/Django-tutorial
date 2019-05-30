@@ -12,6 +12,9 @@
   </ul>
   {% if user.is_authenticated %}
   <ul class="navbar-nav ml-auto">
+    <li class="nav-item {{ my_profile }}">
+      <a class="nav-link" href="{% url 'my_profile' %}">My Profile</a>
+    </li>
     <li class="nav-item {{ logout_page }}">
       <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </li>

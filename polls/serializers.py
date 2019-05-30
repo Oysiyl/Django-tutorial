@@ -4,6 +4,12 @@ from .models import Question, Choice
 from django.utils import timezone
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class ChoiceSerializer(serializers.Serializer):
     choice_text = serializers.CharField(max_length=200)
     # choice_text_1 = serializers.CharField(max_length=200, default='first choice')

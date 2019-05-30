@@ -27,18 +27,28 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import logout
 from django.contrib.auth import login, authenticate
 from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
 # Add a new views here
 
 
+class ReadOnly(BasePermission):
+
+    def has_permission(self, request, view):
+        return request.method in SAFE_METHODS
+
+
 class UserListAPIView(generics.ListAPIView):  # try habr
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permissions_classes = (permissions.AllowAny,)
+    permissions_classes = (IsAuthenticated | ReadOnly)
 
 
 # @login_required
 def password_change(request, template="registration/password_change.html"):
-    # form = PasswordChangeForm(user=request.user, data=request.POST)
     if request.method == 'GET':
         form = PasswordChangeForm2(user=request.user)
     elif request.method == 'POST':
@@ -47,8 +57,6 @@ def password_change(request, template="registration/password_change.html"):
             form.save()
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(reverse(('polls:index')))
-        # else:
-        #     return HttpResponseRedirect(reverse(("update_password")))
     else:
         form = PasswordChangeForm2(user=request.user)
     args = {'form': form}
@@ -72,7 +80,6 @@ def email_change(request, template="registration/email_change.html"):
 
 
 def change_names(request, template="registration/change_names.html"):
-    # form = PasswordChangeForm(user=request.user, data=request.POST)
     if request.method == 'GET':
         form = NamesForm(user=request.user)
     if request.method == 'POST':
@@ -81,14 +88,14 @@ def change_names(request, template="registration/change_names.html"):
             form.save()
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(reverse(('polls:index')))
-        # else:
-        #     return HttpResponseRedirect(reverse(("update_password")))
     else:
         form = NamesForm(user=request.user)
     args = {'form': form}
     return render(request, template, args)
 
 
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.IsAuthenticated,))
 def question_new(request, template='polls/new_question.html'):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -130,20 +137,12 @@ def signup_view(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-def login_view2(request, template='registration/login.html'):
+def login_view(request, template='registration/login.html'):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        # username = form.cleaned_data.get('username')
-        # password = form.cleaned_data.get('password1')
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
-        '''
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse(('polls:index')))
-        '''
         if form.is_valid():
             # form.save()
             login(request, user)
@@ -173,11 +172,11 @@ def emailView(request):
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')
-    return render(request, "email.html", {'form': form})
+    return render(request, "front/email.html", {'form': form})
 
 
 def successView(request):
-    return render(request, 'success.html')
+    return render(request, 'front/success.html')
 
 
 def index(request):
@@ -255,14 +254,19 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
 
+def my_profile(request):
+    context = {}
+    return render(request, 'front/my_profile.html', context)
+
+
 def about(request):
     context = {}
-    return render(request, 'about.html', context)
+    return render(request, 'front/about.html', context)
 
 
 def contact(request):
     context = {}
-    return render(request, 'contact.html', context)
+    return render(request, 'front/contact.html', context)
 
 
 def logout_view(request):

@@ -1,0 +1,29 @@
+<!-- templates/registration/password_change.html -->
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>My Profile</h2>
+<p>Hi!</p>
+<p>My ID: {{ user.id }}</p>
+<p>Last visit by: {{ user.last_login }}</p>
+<p>As I am superuser: {{ user.is_superuser }}</p>
+<p>My username: {{ user.username }}</p>
+<p>Firstname: {{ user.first_name }}</p>
+<p>Lastname {{ user.last_name }}</p>
+<p>My e-mail: {{ user.email }}</p>
+<p>As I am in a moderation group: {{ user.is_staff }}</p>
+<p>Active: {{ user.is_active }}</p>
+<p>Registered at:  {{ user.date_joined }}</p>
+<p>I am participant in this number of groups: {{ user.groups }}</p>
+<p>I have following permissions: {{ user.user_permissions }}</p>
+<p>That's all</p>
+
+{% else %}
+<h1>You shouldn't be here!</h1>
+<p>Anyway, here is nothing interesting</p>
+<p>So, please, get rid of it!</p>
+<p>After 5 seconds you will be redirected to the main page</p>
+<meta http-equiv="refresh" content="5;url={% url 'home' %}">
+{% endif %}
+{% endblock %}
