@@ -5,7 +5,9 @@ djangorestframework-jwt # this is hard (try habr)
 djangorestframework_simplejwt # this is more simple
 django-crispy-forms # added this for "crispy" forms
 coreapi # for docs
-pyyaml #
-coreapi-cli #
-pygments
+pyyaml # for docs
+coreapi-cli # for docs
+pygments # for docs
+drf-yasg # for API docs
+django-rest-auth
 python-dotenv

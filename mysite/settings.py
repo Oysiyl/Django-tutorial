@@ -12,10 +12,17 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import datetime
 from dotenv import load_dotenv, find_dotenv
 import rest_framework
+import django
+
 
 import os
 
 load_dotenv()
+
+SECRET_KEY = os.environ["SECRET_KEY"]
+
+# django.conf.settings.LOGIN_URL = 'login'
+# django.conf.settings.LOGOUT_URL = 'logout'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -31,11 +38,12 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
+JWT_REST_AUTH = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -52,12 +60,16 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',  # Yoohoo!!!!
     'rest_framework',  # try rest framework
+    'rest_framework.authtoken',
+    'rest_auth',
     # 'authentication',  # habr, hello!
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',  # crispy!!!
+    'rest_framework_jwt',
+    'drf_yasg',  # API docs
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  # criiiispy!
@@ -95,14 +107,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser',
         # 'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication'
